@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Mission Control</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦞</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>🦞 OpenClaw Mission Control</h1>
+            <div class="header-actions">
+                <button id="addTaskBtn" class="btn-primary">
+                    <span>+</span> 新增任務
+                </button>
+                <button id="exportBtn" class="btn-secondary">匯出</button>
+                <button id="importBtn" class="btn-secondary">匯入</button>
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="board">
+            <div class="column" data-status="todo">
+                <div class="column-header">
+                    <h2>📋 待辦事項</h2>
+                    <span class="task-count" id="todo-count">0</span>
+                </div>
+                <div class="task-list" id="todo-list"></div>
+            </div>
+
+            <div class="column" data-status="in-progress">
+                <div class="column-header">
+                    <h2>🔄 進行中</h2>
+                    <span class="task-count" id="in-progress-count">0</span>
+                </div>
+                <div class="task-list" id="in-progress-list"></div>
+            </div>
+
+            <div class="column" data-status="done">
+                <div class="column-header">
+                    <h2>✅ 已完成</h2>
+                    <span class="task-count" id="done-count">0</span>
+                </div>
+                <div class="task-list" id="done-list"></div>
+            </div>
+
+            <div class="column" data-status="on-hold">
+                <div class="column-header">
+                    <h2>⏸️ 擱置</h2>
+                    <span class="task-count" id="on-hold-count">0</span>
+                </div>
+                <div class="task-list" id="on-hold-list"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 新增/編輯任務彈窗 -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">新增任務</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">任務標題 *</label>
+                    <input type="text" id="taskTitle" required placeholder="輸入任務標題">
+                </div>
+                <div class="form-group">
+                    <label for="taskDescription">任務描述</label>
+                    <textarea id="taskDescription" rows="3" placeholder="輸入任務描述"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskPriority">優先級</label>
+                        <select id="taskPriority">
+                            <option value="low">🟢 低</option>
+                            <option value="medium" selected>🟡 中</option>
+                            <option value="high">🔴 高</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskStatus">狀態</label>
+                        <select id="taskStatus">
+                            <option value="todo">📋 待辦事項</option>
+                            <option value="in-progress">🔄 進行中</option>
+                            <option value="done">✅ 已完成</option>
+                            <option value="on-hold">⏸️ 擱置</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="taskTags">標籤 (用逗號分隔)</label>
+                    <input type="text" id="taskTags" placeholder="例如: bug, 優化, 功能">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" id="cancelBtn">取消</button>
+                    <button type="submit" class="btn-primary">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 任務詳情彈窗 -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="detailTitle">任務詳情</h3>
+                <button class="close-btn" id="closeDetailModal">&times;</button>
+            </div>
+            <div id="detailContent"></div>
+            <div class="form-actions">
+                <button class="btn-danger" id="deleteTaskBtn">刪除</button>
+                <button class="btn-secondary" id="editTaskBtn">編輯</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🦞 OpenClaw Mission Control v1.0 | <span id="lastUpdated"></span></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
